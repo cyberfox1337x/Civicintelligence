@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Civic Intelligence</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body class="app-auth-pending">
+    <div class="screen-noise"></div>
+    <div class="screen-scanlines"></div>
+
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-lockup">
+          <p class="eyebrow">CASE FILE SYSTEM</p>
+          <h1 class="brand-mark">Civic Intelligence</h1>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Primary">
+          <button class="nav-item active" data-nav="dashboard" type="button">Dashboard</button>
+          <button class="nav-item" data-nav="user-search" type="button">User Search</button>
+          <button class="nav-item" data-nav="boards" type="button">Boards</button>
+        </nav>
+
+        <section class="sidebar-section">
+          <div class="section-heading">
+            <span>CASE FILES</span>
+            <span id="sidebarBoardCount">0</span>
+          </div>
+          <div class="sidebar-board-list" id="sidebarBoardList"></div>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            type="button"
+            aria-label="Open navigation"
+            aria-expanded="false"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="topbar-copy">
+            <p class="eyebrow" id="viewEyebrow">CASE FILE</p>
+            <h2 id="viewTitle">Investigations</h2>
+            <p id="viewSubtitle">
+              Build connected intelligence boards for people, devices, domains,
+              accounts, and active signals.
+            </p>
+          </div>
+
+          <div class="topbar-actions">
+            <div class="status-readout">
+              <span class="status-dot"></span>
+              <div>
+                <span class="status-label">SYSTEM STATUS</span>
+                <strong>ONLINE / ACTIVE</strong>
+              </div>
+            </div>
+            <button class="button primary hidden" id="topbarAddNodeButton" type="button">
+              Add Node
+            </button>
+            <button class="button primary hidden" id="newBoardButton" type="button">
+              New Board
+            </button>
+            <button
+              class="topbar-profile-button"
+              id="appProfileButton"
+              type="button"
+              aria-label="Open account settings"
+            >
+              <img class="topbar-profile-image hidden" id="appProfileImage" alt="Account profile" />
+              <span class="topbar-profile-fallback" id="appProfileFallback">CI</span>
+            </button>
+            <button
+              class="topbar-settings-button"
+              id="appSettingsButton"
+              type="button"
+              aria-label="Open settings"
+            >
+              <i class="fa-solid fa-gear"></i>
+            </button>
+          </div>
+        </header>
+
+        <section class="view" id="dashboardView">
+          <div class="dashboard-overview">
+            <article class="overview-card">
+              <div class="overview-card-icon">
+                <i class="fa-solid fa-wave-square"></i>
+              </div>
+              <div class="overview-card-copy">
+                <span>Daily Queries Available</span>
+                <strong id="dashboardQueriesAvailable">--</strong>
+              </div>
+            </article>
+            <article class="overview-card">
+              <div class="overview-card-icon">
+                <i class="fa-solid fa-users"></i>
+              </div>
+              <div class="overview-card-copy">
+                <span>Users Registered</span>
+                <strong id="dashboardUsersRegistered">--</strong>
+              </div>
+            </article>
+            <article class="overview-card">
+              <div class="overview-card-icon">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+              </div>
+              <div class="overview-card-copy">
+                <span>Total Queries</span>
+                <strong id="dashboardTotalQueries">0</strong>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view hidden" id="userSearchView">
+          <div class="dashboard-panel">
+            <section class="search-console">
+              <div class="search-console-row">
+                <div class="search-type-select" id="dashboardSearchTypeSelect">
+                  <input id="dashboardSearchType" name="dashboardSearchType" type="hidden" value="email" />
+                  <button
+                    class="search-type-trigger"
+                    id="dashboardSearchTypeTrigger"
+                    type="button"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                  >
+                    <span class="search-type-trigger-main">
+                      <span class="search-type-trigger-icon" id="dashboardSearchTypeIcon">
+                        <i class="fa-solid fa-envelope"></i>
+                      </span>
+                      <span class="search-type-trigger-copy">
+                        <strong id="dashboardSearchTypeLabel">Email</strong>
+                      </span>
+                    </span>
+                    <span class="search-type-trigger-caret">
+                      <i class="fa-solid fa-chevron-down"></i>
+                    </span>
+                  </button>
+                  <div class="search-type-menu hidden" id="dashboardSearchTypeMenu" role="listbox"></div>
+                </div>
+
+                <label class="search-input-shell" for="dashboardSearchInput">
+                  <span class="search-input-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </span>
+                  <input
+                    id="dashboardSearchInput"
+                    type="text"
+                    placeholder="john.doe@example.com"
+                  />
+                </label>
+
+                <button class="dashboard-search-button" id="dashboardSearchButton" type="button">
+                  Search
+                </button>
+              </div>
+            </section>
+
+            <div class="search-feedback hidden" id="searchFeedback"></div>
+
+            <section class="search-results hidden" id="searchResultsPanel">
+              <div class="search-results-header">
+                <div>
+                  <p class="eyebrow">LEAKCHECK RESULTS</p>
+                  <h3 id="searchResultsTitle">Results</h3>
+                </div>
+                <div class="search-results-meta">
+                  <span class="search-results-badge" id="searchFoundBadge">0 found</span>
+                  <span class="search-results-badge" id="searchQuotaBadge">Daily Remaining --</span>
+                </div>
+              </div>
+              <div class="search-results-list" id="searchResultsList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view hidden" id="boardsView">
+          <div class="dashboard-panel">
+            <div class="board-list" id="boardList"></div>
+
+            <section class="dashboard-empty hidden" id="dashboardEmpty">
+              <div>
+                <p class="eyebrow">CASE FILES</p>
+                <h3>No boards yet</h3>
+                <p>
+                  Create a board to start mapping accounts, devices, domains, people, and
+                  linked evidence.
+                </p>
+                <button class="button primary" id="emptyBoardButton" type="button">
+                  Create Board
+                </button>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view hidden" id="boardView">
+          <div class="board-shell">
+            <div class="board-stage">
+              <div class="stage-header">
+                <div class="view-banner">
+                  <span class="banner-tag">CASE FILE</span>
+                  <span class="banner-tag">DATA LINK</span>
+                  <span class="banner-tag">ACTIVE NODE</span>
+                </div>
+
+                <div class="board-meta">
+                  <div class="meta-chip">
+                    <span>Nodes</span>
+                    <strong id="nodeCountChip">0</strong>
+                  </div>
+                  <div class="meta-chip">
+                    <span>Relationships</span>
+                    <strong id="edgeCountChip">0</strong>
+                  </div>
+                  <div class="meta-chip link-chip" id="linkStatusChip">
+                    <span>Link Mode</span>
+                    <strong>Off</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="canvas-scroller" id="canvasScroller">
+                <div class="canvas-toolbar">
+                  <button class="canvas-toolbar-button canvas-toolbar-add" id="canvasAddNodeButton" type="button">
+                    Add Person of Interest
+                  </button>
+                  <button class="canvas-toolbar-button" id="zoomOutButton" type="button" aria-label="Zoom out">
+                    <i class="fa-solid fa-minus"></i>
+                  </button>
+                  <span class="canvas-zoom-value" id="canvasZoomValue">100%</span>
+                  <button class="canvas-toolbar-button" id="zoomInButton" type="button" aria-label="Zoom in">
+                    <i class="fa-solid fa-plus"></i>
+                  </button>
+                  <button class="canvas-toolbar-button canvas-toolbar-reset" id="zoomResetButton" type="button">
+                    Reset
+                  </button>
+                </div>
+                <div class="graph-pan-surface" id="graphPanSurface">
+                  <div class="graph-canvas" id="graphCanvas">
+                    <div class="canvas-grid-overlay"></div>
+                    <svg class="graph-edges" id="graphEdges"></svg>
+                    <div class="graph-nodes" id="graphNodes"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <aside class="inspector" id="inspector"></aside>
+          </div>
+        </section>
+      </main>
+      <button
+        class="sidebar-backdrop"
+        id="sidebarBackdrop"
+        type="button"
+        aria-label="Close navigation"
+      ></button>
+    </div>
+
+    <div class="modal hidden" id="boardModal">
+      <div class="modal-backdrop" data-close="boardModal"></div>
+      <div class="modal-panel modal-panel-wide">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow" id="boardModalEyebrow">Create Investigation</p>
+            <h3 id="boardModalTitle">New Board</h3>
+            <p class="modal-subcopy" id="boardModalCopy">
+              Define the board name, identity, and visual status before adding signals.
+            </p>
+          </div>
+          <button class="icon-button" data-close="boardModal" aria-label="Close">
+            x
+          </button>
+        </div>
+
+        <form id="boardForm" class="form-stack">
+          <input type="hidden" name="boardId" />
+          <div class="board-draft-preview" id="boardDraftPreview">
+            <div class="board-draft-icon" id="boardDraftIcon">📁</div>
+            <div class="board-draft-copy">
+              <p class="eyebrow">LIVE PREVIEW</p>
+              <h4 id="boardDraftName">Untitled Board</h4>
+              <p id="boardDraftDescription">Scope, goals, and notes will appear here.</p>
+              <div class="board-draft-meta">
+                <span class="status-chip active" id="boardDraftStatus">ACTIVE</span>
+                <span class="board-draft-color-label" id="boardDraftColorLabel">#63b6ff</span>
+              </div>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>Board Name</span>
+            <input
+              type="text"
+              name="name"
+              maxlength="120"
+              placeholder="Credential cluster - March"
+              required
+            />
+          </label>
+
+          <label class="field">
+            <span>Description</span>
+            <textarea
+              name="description"
+              rows="4"
+              maxlength="500"
+              placeholder="Scope, goals, and what this board tracks."
+            ></textarea>
+          </label>
+
+          <div class="board-custom-grid">
+            <div class="field">
+              <span>Board Emoji</span>
+              <div class="emoji-preset-grid" id="boardEmojiGrid"></div>
+              <input
+                type="text"
+                name="iconEmoji"
+                id="boardEmojiInput"
+                maxlength="8"
+                placeholder="📁"
+              />
+            </div>
+
+            <div class="field">
+              <span>Accent Color</span>
+              <div class="color-preset-grid" id="boardColorGrid"></div>
+              <input
+                type="color"
+                name="accentColor"
+                id="boardColorInput"
+                value="#63b6ff"
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <span>Status</span>
+            <input type="hidden" name="status" id="boardStatusInput" value="active" />
+            <div class="status-toggle" id="boardStatusToggle" role="group" aria-label="Board status">
+              <button
+                class="status-toggle-button active"
+                type="button"
+                data-status="active"
+                aria-pressed="true"
+              >
+                ACTIVE
+              </button>
+              <button
+                class="status-toggle-button"
+                type="button"
+                data-status="closed"
+                aria-pressed="false"
+              >
+                CLOSED
+              </button>
+            </div>
+          </div>
+
+          <button class="button primary block" type="submit">
+            Create Board
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="nodeModal">
+      <div class="modal-backdrop" data-close="nodeModal"></div>
+      <div class="modal-panel modal-panel-wide">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow" id="nodeModalEyebrow">Create Signal</p>
+            <h3 id="nodeModalTitle">Create Investigation Signal</h3>
+            <p class="modal-subcopy hidden" id="nodeModalCopy"></p>
+          </div>
+          <button class="icon-button" data-close="nodeModal" aria-label="Close">
+            x
+          </button>
+        </div>
+
+        <form id="nodeForm" class="form-stack">
+          <input type="hidden" name="nodeId" />
+          <input type="hidden" name="profileImage" id="nodeProfileImageData" />
+
+          <div class="field field-no-label">
+            <div class="node-type-select" id="nodeTypeSelect">
+              <button
+                class="node-type-trigger"
+                id="nodeTypeTrigger"
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+              >
+                <span class="node-type-trigger-icon" id="nodeTypeTriggerIcon">
+                  <i class="fa-solid fa-envelope"></i>
+                </span>
+                <span class="node-type-trigger-copy">
+                  <strong id="nodeTypeTriggerLabel">Email</strong>
+                </span>
+                <span class="node-type-trigger-caret" aria-hidden="true"></span>
+              </button>
+              <div class="node-type-menu hidden" id="nodeTypeMenu" role="listbox"></div>
+            </div>
+          </div>
+
+          <div class="person-media-panel hidden" id="personMediaPanel">
+            <div class="person-media-preview" id="personMediaPreview">
+              <span class="person-media-fallback" id="personMediaFallback">CI</span>
+              <img
+                class="person-media-image hidden"
+                id="personMediaImage"
+                alt="Person profile preview"
+              />
+            </div>
+
+            <div class="person-media-copy">
+              <span class="field-label-inline">Profile Photo</span>
+              <p>
+                Add a face or avatar for person nodes so the board reads like a real
+                investigation profile.
+              </p>
+              <div class="person-media-actions">
+                <label class="button ghost person-upload-button" for="personPhotoInput">
+                  Upload Photo
+                </label>
+                <button
+                  class="button ghost hidden"
+                  type="button"
+                  id="clearPersonPhotoButton"
+                >
+                  Remove Photo
+                </button>
+              </div>
+              <input
+                class="hidden"
+                type="file"
+                id="personPhotoInput"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+              />
+            </div>
+          </div>
+
+          <label class="field">
+            <span id="nodeLabelFieldLabel">Primary Label</span>
+            <input
+              type="text"
+              name="label"
+              id="nodeLabelInput"
+              maxlength="160"
+              placeholder="victim@example.com"
+              required
+            />
+          </label>
+          <label class="field">
+            <span>Reference</span>
+            <input
+              type="text"
+              name="reference"
+              maxlength="240"
+              placeholder="Ticket, case id, alias, hostname, or external reference"
+            />
+          </label>
+          <label class="field">
+            <span>Notes</span>
+            <textarea
+              name="notes"
+              rows="5"
+              maxlength="1000"
+              placeholder="Observed relationship, source context, investigative notes"
+            ></textarea>
+          </label>
+
+            <button class="button primary block" type="submit" id="nodeSubmitButton">
+            Save Signal
+            </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="relationshipModal">
+      <div class="modal-backdrop" id="relationshipModalBackdrop"></div>
+      <div class="modal-panel relationship-modal-panel">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Create Link</p>
+            <h3>Create Relationship</h3>
+            <p class="modal-subcopy">
+              Define how these two signals are connected inside the case file.
+            </p>
+          </div>
+          <button
+            class="icon-button"
+            type="button"
+            id="relationshipCancelButton"
+            aria-label="Close"
+          >
+            x
+          </button>
+        </div>
+
+        <form id="relationshipForm" class="form-stack">
+          <div class="relationship-preview">
+            <article class="relationship-node-card">
+              <span class="relationship-node-meta" id="relationshipSourceMeta">SOURCE</span>
+              <strong class="relationship-node-title" id="relationshipSourceLabel">Source Node</strong>
+              <p class="relationship-node-subtitle" id="relationshipSourceType">Signal</p>
+            </article>
+
+            <div class="relationship-arrow" aria-hidden="true">→</div>
+
+            <article class="relationship-node-card">
+              <span class="relationship-node-meta" id="relationshipTargetMeta">TARGET</span>
+              <strong class="relationship-node-title" id="relationshipTargetLabel">Target Node</strong>
+              <p class="relationship-node-subtitle" id="relationshipTargetType">Signal</p>
+            </article>
+          </div>
+
+          <label class="field">
+            <span>Relationship Label</span>
+            <input
+              type="text"
+              name="label"
+              id="relationshipLabelInput"
+              maxlength="80"
+              placeholder="related to"
+            />
+          </label>
+
+          <div class="relationship-suggestions" id="relationshipSuggestions">
+            <button class="relationship-suggestion" type="button" data-label="related to">
+              related to
+            </button>
+            <button class="relationship-suggestion" type="button" data-label="used by">
+              used by
+            </button>
+            <button class="relationship-suggestion" type="button" data-label="owned by">
+              owned by
+            </button>
+            <button class="relationship-suggestion" type="button" data-label="linked to">
+              linked to
+            </button>
+          </div>
+
+          <div class="modal-actions">
+            <button class="button ghost" type="button" id="relationshipSecondaryCancelButton">
+              Cancel
+            </button>
+            <button class="button primary" type="submit">
+              Create Link
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="settingsModal">
+      <div class="modal-backdrop" data-close="settingsModal"></div>
+      <div class="modal-panel settings-modal-panel">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Workspace Settings</p>
+            <h3>Settings</h3>
+            <p class="modal-subcopy">
+              Adjust the active workspace controls and account access from one place.
+            </p>
+          </div>
+          <button class="icon-button" data-close="settingsModal" aria-label="Close">
+            x
+          </button>
+        </div>
+
+        <div class="settings-tab-row" role="tablist" aria-label="Settings sections">
+          <button class="settings-tab-button is-active" type="button" data-settings-tab="toggles" aria-selected="true">
+            Toggles
+          </button>
+          <button class="settings-tab-button" type="button" data-settings-tab="account" aria-selected="false">
+            Account
+          </button>
+        </div>
+
+        <section class="settings-panel is-active" data-settings-panel="toggles">
+          <article class="settings-surface">
+            <div class="settings-surface-copy">
+              <strong>Announcements</strong>
+              <p>Show product updates and rollout notes inside the workspace shell.</p>
+            </div>
+            <button class="settings-toggle-button" id="settingsAnnouncementsToggle" type="button" data-setting-key="announcements"></button>
+          </article>
+
+          <article class="settings-surface">
+            <div class="settings-surface-copy">
+              <strong>Motion</strong>
+              <p>Keep the ambient scanline and interface motion active across the case file views.</p>
+            </div>
+            <button class="settings-toggle-button" id="settingsMotionToggle" type="button" data-setting-key="motion"></button>
+          </article>
+        </section>
+
+        <section class="settings-panel hidden" data-settings-panel="account">
+          <article class="settings-account-summary">
+            <div class="settings-account-avatar" id="settingsAvatar">
+              <img class="settings-account-avatar-image hidden" id="settingsAvatarImage" alt="Account profile" />
+              <span id="settingsAvatarFallback">CI</span>
+            </div>
+            <div class="settings-account-copy">
+              <span class="eyebrow">Signed In</span>
+              <strong id="settingsUsername">Workspace account</strong>
+              <p id="settingsAccountMeta">Session details will appear here.</p>
+            </div>
+          </article>
+
+          <div class="settings-account-grid">
+            <article class="settings-surface">
+              <div class="settings-surface-copy">
+                <span class="settings-field-label">Role</span>
+                <strong id="settingsRole">Analyst</strong>
+              </div>
+            </article>
+
+            <article class="settings-surface">
+              <div class="settings-surface-copy">
+                <span class="settings-field-label">Organization</span>
+                <strong id="settingsOrganization">Not set</strong>
+              </div>
+            </article>
+          </div>
+
+          <input class="hidden" id="settingsProfileImageInput" type="file" accept="image/*" />
+          <div class="settings-inline-actions settings-profile-actions">
+            <button class="button ghost" id="settingsProfileUploadButton" type="button">
+              Choose Picture
+            </button>
+            <button class="button ghost" id="settingsProfileRemoveButton" type="button">
+              Remove Picture
+            </button>
+          </div>
+          <p class="settings-feedback hidden" id="settingsProfileFeedback"></p>
+
+          <form class="settings-form-stack" id="settingsPasswordForm">
+            <article class="settings-surface settings-form-surface">
+              <div class="settings-surface-copy">
+                <span class="settings-field-label">Password</span>
+                <strong>Update account password</strong>
+                <p>If one-time passcodes are enabled, enter the current code too.</p>
+              </div>
+              <div class="settings-form-grid">
+                <label class="field">
+                  <span>Current Password</span>
+                  <input id="settingsCurrentPassword" type="password" name="currentPassword" required />
+                </label>
+                <label class="field">
+                  <span>New Password</span>
+                  <input id="settingsNewPassword" type="password" name="newPassword" required />
+                </label>
+                <label class="field">
+                  <span>Confirm New Password</span>
+                  <input id="settingsConfirmPassword" type="password" name="confirmPassword" required />
+                </label>
+                <label class="field">
+                  <span>One-Time Passcode</span>
+                  <input id="settingsPasswordOtpCode" type="text" name="otpCode" placeholder="123456" inputmode="numeric" />
+                </label>
+              </div>
+              <button class="button primary" type="submit">Update Password</button>
+            </article>
+            <p class="settings-feedback hidden" id="settingsPasswordFeedback"></p>
+          </form>
+
+          <form class="settings-form-stack" id="settingsOtpForm">
+            <article class="settings-surface settings-form-surface">
+              <div class="settings-surface-copy settings-otp-copy">
+                <span class="settings-field-label">Sign-In Code</span>
+                <strong id="settingsOtpStatusTitle">Off</strong>
+                <p id="settingsOtpStatusCopy">Add a 6-digit code for extra sign-in protection.</p>
+              </div>
+              <div class="settings-otp-secret-wrap hidden" id="settingsOtpSecretWrap">
+                <span class="settings-field-label">Setup Key</span>
+                <code id="settingsOtpSecret">Generate a key first</code>
+              </div>
+              <div class="settings-form-grid settings-otp-grid hidden" id="settingsOtpFieldsWrap">
+                <label class="field">
+                  <span>Current Password</span>
+                  <input id="settingsOtpCurrentPassword" type="password" name="currentPassword" required />
+                </label>
+                <label class="field">
+                  <span>Authenticator Code</span>
+                  <input id="settingsOtpCode" type="text" name="otpCode" placeholder="123456" inputmode="numeric" />
+                </label>
+              </div>
+              <div class="settings-inline-actions">
+                <button class="button ghost" id="settingsOtpSetupButton" type="button">Set Up Code</button>
+                <button class="button primary hidden" id="settingsOtpEnableButton" type="submit">Turn On</button>
+                <button class="button ghost hidden" id="settingsOtpDisableButton" type="button">Turn Off</button>
+              </div>
+            </article>
+            <p class="settings-feedback hidden" id="settingsOtpFeedback"></p>
+          </form>
+
+          <div class="settings-action-stack">
+            <button class="button ghost hidden" id="settingsAdminButton" type="button">
+              Admin Page
+            </button>
+            <button class="button primary" id="settingsLogoutButton" type="button">
+              Log Out
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="deleteBoardModal">
+      <div class="modal-backdrop" data-close="deleteBoardModal"></div>
+      <div
+        class="modal-panel confirm-modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deleteBoardTitle"
+        aria-describedby="deleteBoardDescription"
+      >
+        <div class="modal-header confirm-modal-header">
+          <div>
+            <p class="eyebrow">Case File System</p>
+            <h3 id="deleteBoardTitle">Delete Case File</h3>
+            <p class="modal-subcopy" id="deleteBoardDescription">
+              This permanently removes the case file and all related board data.
+            </p>
+          </div>
+          <button class="icon-button" data-close="deleteBoardModal" aria-label="Close delete confirmation">
+            x
+          </button>
+        </div>
+
+        <div class="confirm-modal-body">
+          <p id="deleteBoardMessage">
+            Delete this case file? This removes the board, its nodes, and its relationships.
+          </p>
+          <ul class="confirm-modal-list">
+            <li>The case file board will be deleted.</li>
+            <li>Connected nodes and relationships will be removed.</li>
+            <li>This action cannot be undone.</li>
+          </ul>
+        </div>
+
+        <div class="modal-actions confirm-modal-actions">
+          <button class="button ghost" type="button" id="deleteBoardCancelButton">Cancel</button>
+          <button class="button danger" type="button" id="deleteBoardConfirmButton">Delete Case</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

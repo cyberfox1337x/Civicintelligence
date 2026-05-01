@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In | Civic Intelligence</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./marketing.css" />
+    <script src="./marketing.js" defer></script>
+  </head>
+  <body class="marketing-body auth-body">
+    <div class="screen-noise"></div>
+    <div class="screen-scanlines"></div>
+
+    <header class="marketing-header">
+      <a class="marketing-brand" href="./landing.html">
+        <span class="eyebrow">Civic Intelligence</span>
+        <strong>Investigation Platform</strong>
+      </a>
+      <nav class="marketing-nav">
+        <a class="button ghost auth-nav-current" href="./login.html">Log In</a>
+        <a class="button primary" href="./register.html">Register</a>
+      </nav>
+    </header>
+
+    <main class="auth-main">
+      <section class="auth-shell">
+        <div class="auth-form-column reveal-up">
+          <div class="auth-form-surface">
+            <div class="auth-form-header">
+              <p class="eyebrow">Log In</p>
+              <h2>Access Workspace</h2>
+            </div>
+
+            <form class="auth-form" id="loginForm" autocomplete="off">
+              <input type="text" name="fakeUsername" class="auth-decoy-field" autocomplete="username" tabindex="-1" aria-hidden="true" />
+              <input type="password" name="fakePassword" class="auth-decoy-field" autocomplete="current-password" tabindex="-1" aria-hidden="true" />
+              <label class="auth-field">
+                <span>Username</span>
+                <input
+                  id="loginUsername"
+                  type="text"
+                  name="username"
+                  placeholder="Enter username"
+                  autocomplete="off"
+                  autocapitalize="none"
+                  autocorrect="off"
+                  spellcheck="false"
+                  required
+                />
+              </label>
+
+              <label class="auth-field">
+                <span>Password</span>
+                <input
+                  id="loginPassword"
+                  type="password"
+                  name="password"
+                  placeholder="Enter password"
+                  autocomplete="new-password"
+                  required
+                />
+              </label>
+
+              <label class="auth-field hidden" id="loginOtpField">
+                <span>One-Time Passcode</span>
+                <input
+                  id="loginOtpCode"
+                  type="text"
+                  name="otpCode"
+                  placeholder="123456 if enabled"
+                  inputmode="numeric"
+                />
+              </label>
+
+              <div class="auth-captcha-shell">
+                <div class="auth-captcha-widget" data-recaptcha-container></div>
+                <input type="hidden" name="recaptchaToken" />
+                <p class="auth-captcha-meta" data-captcha-mode-text></p>
+              </div>
+
+              <button class="button primary auth-submit" type="submit">Log In</button>
+              <p class="auth-feedback hidden" id="loginFeedback"></p>
+              <a class="auth-secondary-link" href="./register.html">Need an account?</a>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

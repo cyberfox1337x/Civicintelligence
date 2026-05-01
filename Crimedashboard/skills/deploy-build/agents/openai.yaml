@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deploy Build"
+  short_description: "Prepare deployment and release changes"
+  default_prompt: "Use $deploy-build to wire the config and rollout steps for this deploy."

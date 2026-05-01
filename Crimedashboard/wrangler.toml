@@ -1,0 +1,8 @@
+name = "civic-intelligence"
+pages_build_output_dir = "."
+compatibility_date = "2026-04-21"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "shadow-investigations-db"
+database_id = "c25d33d8-78d6-4374-aafe-808f1e1bcbc0"
