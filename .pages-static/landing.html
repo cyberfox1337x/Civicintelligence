@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Civic Intelligence | Investigation Platform</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./marketing.css" />
+    <script src="./marketing.js" defer></script>
+  </head>
+  <body class="marketing-body">
+    <div class="screen-noise"></div>
+    <div class="screen-scanlines"></div>
+
+    <header class="marketing-header">
+      <a class="marketing-brand" href="./landing.html">
+        <span class="eyebrow">Civic Intelligence</span>
+        <strong>Investigation Platform</strong>
+      </a>
+
+      <button
+        class="marketing-menu-button"
+        id="marketingMenuButton"
+        type="button"
+        aria-label="Open navigation"
+        aria-expanded="false"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="marketing-nav" id="marketingNav">
+        <button class="button ghost" type="button" data-auth-open="login">Log In</button>
+        <button class="button primary" type="button" data-auth-open="register">Register</button>
+      </nav>
+    </header>
+
+    <main class="marketing-main">
+      <section class="hero-section">
+        <div class="hero-copy reveal-up">
+          <p class="eyebrow">Investigation Workspace</p>
+          <h1>
+            One place to search, organize, and track an investigation.
+          </h1>
+          <p class="hero-lead">
+            Civic Intelligence helps you create case files, search for useful
+            data, and map people, devices, accounts, and domains in a visual
+            workspace.
+          </p>
+
+          <ul class="hero-points">
+            <li>Create and manage case files</li>
+            <li>Search records from one dashboard</li>
+            <li>Add useful matches into an active board</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual reveal-up reveal-delay-1">
+          <div class="hero-canvas-panel">
+            <div class="hero-canvas-toolbar">
+              <span class="hero-pill">Case File Canvas</span>
+              <span class="hero-pill">Live Investigation</span>
+            </div>
+
+            <div class="hero-canvas-surface">
+              <div class="hero-canvas-grid"></div>
+
+              <article class="landing-node landing-node-person">
+                <span class="landing-node-type">Person</span>
+                <strong>John Doe</strong>
+                <p>Subject profile</p>
+              </article>
+
+              <article class="landing-node landing-node-email">
+                <span class="landing-node-type">Email</span>
+                <strong>john.doe@example.com</strong>
+                <p>Matched record</p>
+              </article>
+
+              <article class="landing-node landing-node-device">
+                <span class="landing-node-type">Device</span>
+                <strong>MacBook Pro</strong>
+                <p>Linked endpoint</p>
+              </article>
+
+              <article class="landing-node landing-node-note">
+                <span class="landing-node-type">Case File</span>
+                <strong>City Finance Review</strong>
+                <p>Search result added to active board</p>
+              </article>
+
+              <div class="landing-link landing-link-a"></div>
+              <div class="landing-link landing-link-b"></div>
+              <div class="landing-link landing-link-c"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="auth-modal hidden" id="authModal" aria-hidden="true">
+      <div class="auth-modal-backdrop" data-auth-close></div>
+      <div class="auth-modal-panel" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+        <div class="auth-modal-header">
+          <div>
+            <p class="eyebrow" id="authModalEyebrow">Secure Access</p>
+            <h2 id="authModalTitle">Access Workspace</h2>
+            <p class="auth-modal-copy" id="authModalCopy">
+              Sign in or create an operator account without leaving the investigation workspace.
+            </p>
+          </div>
+          <button class="auth-modal-close" type="button" data-auth-close aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="auth-modal-tabs" role="tablist" aria-label="Authentication">
+          <button class="auth-modal-tab is-active" type="button" data-auth-tab="login" aria-selected="true">
+            Log In
+          </button>
+          <button class="auth-modal-tab" type="button" data-auth-tab="register" aria-selected="false">
+            Register
+          </button>
+        </div>
+
+        <div class="auth-modal-panels">
+          <section class="auth-modal-view is-active" data-auth-view="login">
+            <form class="auth-form" id="loginForm" autocomplete="off">
+              <input type="text" name="fakeUsername" class="auth-decoy-field" autocomplete="username" tabindex="-1" aria-hidden="true" />
+              <input type="password" name="fakePassword" class="auth-decoy-field" autocomplete="current-password" tabindex="-1" aria-hidden="true" />
+
+              <label class="auth-field">
+                <span>Username</span>
+                <input
+                  id="loginUsername"
+                  type="text"
+                  name="username"
+                  placeholder="Enter username"
+                  autocomplete="off"
+                  autocapitalize="none"
+                  autocorrect="off"
+                  spellcheck="false"
+                  required
+                />
+              </label>
+
+              <label class="auth-field">
+                <span>Password</span>
+                <input
+                  id="loginPassword"
+                  type="password"
+                  name="password"
+                  placeholder="Enter password"
+                  autocomplete="new-password"
+                  required
+                />
+              </label>
+
+              <label class="auth-field hidden" id="loginOtpField">
+                <span>One-Time Passcode</span>
+                <input
+                  id="loginOtpCode"
+                  type="text"
+                  name="otpCode"
+                  placeholder="123456 if enabled"
+                  inputmode="numeric"
+                />
+              </label>
+
+              <div class="auth-captcha-shell">
+                <div class="auth-captcha-widget" data-recaptcha-container></div>
+                <input type="hidden" name="recaptchaToken" />
+                <p class="auth-captcha-meta" data-captcha-mode-text></p>
+              </div>
+
+              <button class="button primary auth-submit" type="submit">Log In</button>
+              <p class="auth-feedback hidden" id="loginFeedback"></p>
+              <button class="auth-secondary-link auth-modal-switch" type="button" data-auth-open="register">
+                Need an account?
+              </button>
+            </form>
+          </section>
+
+          <section class="auth-modal-view" data-auth-view="register">
+            <form class="auth-form auth-form-register" id="registerForm" autocomplete="off">
+              <label class="auth-field">
+                <span>Username</span>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Create username"
+                  autocapitalize="none"
+                  autocorrect="off"
+                  spellcheck="false"
+                  required
+                />
+              </label>
+
+              <label class="auth-field">
+                <span>Password</span>
+                <input type="password" name="password" placeholder="Create password" autocomplete="new-password" required />
+              </label>
+
+              <div class="auth-captcha-shell">
+                <div class="auth-captcha-widget" data-recaptcha-container></div>
+                <input type="hidden" name="recaptchaToken" />
+                <p class="auth-captcha-meta" data-captcha-mode-text></p>
+              </div>
+
+              <button class="button primary auth-submit" type="submit">Register</button>
+              <p class="auth-feedback hidden" id="registerFeedback"></p>
+              <button class="auth-secondary-link auth-modal-switch" type="button" data-auth-open="login">
+                Already have an account?
+              </button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

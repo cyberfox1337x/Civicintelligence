@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | Civic Intelligence</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./admin.css" />
+    <script src="./admin.js" defer></script>
+  </head>
+  <body class="admin-body">
+    <div class="screen-noise"></div>
+    <div class="screen-scanlines"></div>
+
+    <main class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <p class="admin-eyebrow">Civic Intelligence</p>
+          <h1>Admin Panel</h1>
+        </div>
+
+        <div class="admin-header-actions">
+          <a class="admin-link-button" href="./index.html">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Workspace</span>
+          </a>
+          <button
+            class="admin-gear-button"
+            id="settingsOpenButton"
+            type="button"
+            aria-label="Open settings"
+          >
+            <i class="fa-solid fa-gear"></i>
+          </button>
+        </div>
+      </header>
+
+      <nav class="admin-view-grid" aria-label="Admin sections">
+        <button class="admin-view-card is-active" data-view="home" type="button">
+          <span class="admin-view-label">
+            <i class="fa-solid fa-house"></i>
+            Home
+          </span>
+          <strong>Operational overview and current admin status.</strong>
+        </button>
+
+        <button class="admin-view-card" data-view="users" type="button">
+          <span class="admin-view-label">
+            <i class="fa-solid fa-users-gear"></i>
+            User Management
+          </span>
+          <strong>Add, ban, or review workspace users.</strong>
+        </button>
+
+        <button class="admin-view-card" data-view="logs" type="button">
+          <span class="admin-view-label">
+            <i class="fa-solid fa-clipboard-list"></i>
+            Logs
+          </span>
+          <strong>Review successful and failed account activity.</strong>
+        </button>
+
+        <button class="admin-view-card" data-view="announcements" type="button">
+          <span class="admin-view-label">
+            <i class="fa-solid fa-bullhorn"></i>
+            Announcements
+          </span>
+          <strong>Post changelog updates and operator notices.</strong>
+        </button>
+      </nav>
+
+      <section class="admin-panel is-active" id="adminPanelHome" data-panel="home">
+        <div class="admin-home-grid">
+          <article class="admin-stat-card">
+            <div class="admin-stat-icon">
+              <i class="fa-solid fa-wave-square"></i>
+            </div>
+            <div>
+              <p>Active Sessions</p>
+              <strong id="homeActiveSessions">0</strong>
+            </div>
+          </article>
+
+          <article class="admin-stat-card">
+            <div class="admin-stat-icon">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div>
+              <p>Registered Users</p>
+              <strong id="homeRegisteredUsers">0</strong>
+            </div>
+          </article>
+
+          <article class="admin-stat-card">
+            <div class="admin-stat-icon">
+              <i class="fa-solid fa-magnifying-glass-chart"></i>
+            </div>
+            <div>
+              <p>Recent Events</p>
+              <strong id="homeRecentEvents">0</strong>
+            </div>
+          </article>
+        </div>
+
+        <div class="admin-home-layout">
+          <section class="admin-surface">
+            <div class="admin-surface-header">
+              <div>
+                <p class="admin-section-kicker">Recent Activity</p>
+                <h2>Latest admin events</h2>
+              </div>
+              <span class="admin-pill">Live</span>
+            </div>
+            <div class="admin-timeline" id="homeTimeline"></div>
+          </section>
+
+          <aside class="admin-surface admin-side-stack">
+            <div class="admin-mini-panel">
+              <p class="admin-section-kicker">Control State</p>
+              <h3>Workspace operations</h3>
+              <ul class="admin-status-list">
+                <li><span class="dot ok"></span> Auth routing enabled</li>
+                <li><span class="dot ok"></span> D1 data store online</li>
+                <li><span class="dot warn"></span> Announcements pending review</li>
+              </ul>
+            </div>
+
+            <div class="admin-mini-panel">
+              <p class="admin-section-kicker">Current Admin</p>
+              <h3 id="homeCurrentAdmin">Loading account...</h3>
+              <p id="homeCurrentAdminMeta">Checking session details.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="admin-panel" id="adminPanelUsers" data-panel="users">
+        <div class="admin-section-header">
+          <div>
+            <p class="admin-section-kicker">User Management</p>
+            <h2>Workspace access and moderation</h2>
+          </div>
+        </div>
+
+        <form class="user-create-row" id="userCreateForm">
+          <label>
+            <span>Username</span>
+            <input id="userCreateName" type="text" placeholder="Username" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input
+              id="userCreatePassword"
+              type="text"
+              placeholder="Temporary password"
+              required
+            />
+          </label>
+          <button class="admin-action-button primary" type="submit">Add user</button>
+        </form>
+
+        <div class="user-list" id="userList"></div>
+        <p class="admin-foot-note" id="userFootNote"></p>
+      </section>
+
+      <section class="admin-panel" id="adminPanelLogs" data-panel="logs">
+        <div class="admin-toolbar">
+          <label class="admin-search-field">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              id="logSearchInput"
+              type="search"
+              placeholder="Search username, state, device, or message"
+            />
+          </label>
+
+          <div class="admin-toolbar-actions">
+            <button class="admin-action-button" id="logsDownloadButton" type="button">
+              <i class="fa-solid fa-file-arrow-down"></i>
+              <span>Download PDF</span>
+            </button>
+            <button class="admin-action-button" id="logsClearButton" type="button">
+              <i class="fa-solid fa-broom"></i>
+              <span>Clear log</span>
+            </button>
+            <button class="admin-action-button" id="logsRefreshButton" type="button">
+              <i class="fa-solid fa-rotate-right"></i>
+              <span>Refresh log</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Username</th>
+                <th>IP Address</th>
+                <th>Date &amp; Time</th>
+                <th>Device</th>
+                <th>State</th>
+                <th>City</th>
+                <th>ZIP</th>
+                <th>Browser Agent</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody id="logTableBody"></tbody>
+          </table>
+        </div>
+        <p class="admin-foot-note" id="logFootNote"></p>
+      </section>
+
+      <section class="admin-panel" id="adminPanelAnnouncements" data-panel="announcements">
+        <div class="admin-section-header">
+          <div>
+            <p class="admin-section-kicker">Announcements</p>
+            <h2>Post operator updates</h2>
+          </div>
+        </div>
+
+        <form class="announcement-form" id="announcementForm">
+          <label>
+            <span>Title</span>
+            <input id="announcementTitle" type="text" placeholder="Platform update 1.2" required />
+          </label>
+
+          <label>
+            <span>Message</span>
+            <textarea
+              id="announcementMessage"
+              rows="8"
+              placeholder="Write the admin announcement here."
+              required
+            ></textarea>
+          </label>
+
+          <button class="admin-action-button primary wide" type="submit">
+            Post announcement
+          </button>
+        </form>
+
+        <div class="announcement-list" id="announcementList"></div>
+      </section>
+    </main>
+
+    <div class="admin-modal-backdrop hidden" id="settingsModal">
+      <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+        <div class="admin-modal-header">
+          <div>
+            <h2 id="settingsTitle">Settings</h2>
+            <p>Adjust admin tools and account controls.</p>
+          </div>
+          <button class="admin-modal-close" id="settingsCloseButton" type="button" aria-label="Close settings">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="settings-tab-row">
+          <button class="settings-tab is-active" data-settings-tab="toggles" type="button">Toggles</button>
+          <button class="settings-tab" data-settings-tab="account" type="button">Account</button>
+        </div>
+
+        <section class="settings-panel is-active" data-settings-panel="toggles">
+          <div class="settings-toggle-card">
+            <div>
+              <strong>Announcements</strong>
+              <p>Allow push-style notice publishing from this panel.</p>
+            </div>
+            <button class="settings-toggle" data-setting-key="announcements" type="button"></button>
+          </div>
+
+          <button class="admin-action-button primary wide" id="settingsLogoutButton" type="button">
+            Log out
+          </button>
+        </section>
+
+        <section class="settings-panel" data-settings-panel="account">
+          <div class="account-profile-card">
+            <div class="account-avatar" id="settingsAvatar">CI</div>
+            <div>
+              <strong id="settingsAccountName">Civic Admin</strong>
+              <p id="settingsAccountEmail">Loading account details.</p>
+            </div>
+          </div>
+
+          <div class="account-form-grid">
+            <label>
+              <span>Current password</span>
+              <input type="password" placeholder="Current password" />
+            </label>
+            <label>
+              <span>New password</span>
+              <input type="password" placeholder="New password" />
+            </label>
+            <label>
+              <span>Confirm new password</span>
+              <input type="password" placeholder="Confirm new password" />
+            </label>
+            <label>
+              <span>One-time passcode</span>
+              <input type="text" placeholder="6-digit code" />
+            </label>
+          </div>
+
+          <button class="admin-action-button primary wide" type="button">Update password</button>
+        </section>
+      </div>
+    </div>
+
+    <div class="admin-modal-backdrop hidden" id="clearLogModal">
+      <div
+        class="admin-modal admin-confirm-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="clearLogTitle"
+        aria-describedby="clearLogDescription"
+      >
+        <div class="admin-modal-header admin-confirm-header">
+          <div>
+            <h2 id="clearLogTitle">Confirm Clear Log</h2>
+            <p id="clearLogDescription">
+              This permanently removes stored admin activity events from the workspace log.
+            </p>
+          </div>
+          <button
+            class="admin-modal-close admin-modal-close-inline"
+            id="clearLogCloseButton"
+            type="button"
+            aria-label="Close clear log confirmation"
+          >
+            Close
+          </button>
+        </div>
+
+        <div class="admin-confirm-body">
+          <p class="admin-confirm-copy">
+            Clearing the log will wipe the current activity history from the admin panel.
+          </p>
+          <ul class="admin-confirm-list">
+            <li>Login, register, search, and moderation events will be removed.</li>
+            <li>The dashboard recent event count will reset.</li>
+            <li>This cannot be undone after you confirm it.</li>
+          </ul>
+        </div>
+
+        <div class="admin-confirm-footer">
+          <button class="admin-action-button" id="clearLogCancelButton" type="button">Cancel</button>
+          <button class="admin-action-button danger" id="clearLogConfirmButton" type="button">
+            Yes, clear log
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

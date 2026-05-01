@@ -1,0 +1,131 @@
+:root {
+  color-scheme: light;
+  --bg: #f6f3ec;
+  --panel: #fffdf8;
+  --border: #d7cfbf;
+  --text: #1f2933;
+  --muted: #5b6470;
+  --accent: #0f766e;
+  --accent-strong: #115e59;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #f4efe5 0%, #f9f7f2 100%);
+  color: var(--text);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(860px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 3rem 0 4rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.page-header,
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.25rem;
+  box-shadow: 0 14px 40px rgba(31, 41, 51, 0.08);
+}
+
+.page-header h1,
+.panel h2 {
+  margin: 0;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.page-copy,
+.status-copy,
+.empty-state {
+  color: var(--muted);
+}
+
+.stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+input {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  background: white;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent-strong);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.item-card {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    width: min(100% - 1rem, 860px);
+    padding-top: 1rem;
+  }
+
+  .panel-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

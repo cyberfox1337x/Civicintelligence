@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Project Starter</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="page-header">
+        <p class="eyebrow">Starter</p>
+        <h1 id="pageTitle">Project Starter</h1>
+        <p id="pageDescription" class="page-copy">
+          Replace this copy with the real user flow and wire it to your route layer.
+        </p>
+      </header>
+
+      <section class="panel">
+        <h2>Add Item</h2>
+        <form id="itemForm" class="stack">
+          <label class="field">
+            <span>Name</span>
+            <input id="itemName" name="name" type="text" required>
+          </label>
+          <button id="submitButton" type="submit">Save Item</button>
+        </form>
+        <p id="formMessage" class="status-copy" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Items</h2>
+          <button id="refreshButton" type="button">Refresh</button>
+        </div>
+        <p id="listStatus" class="status-copy" role="status" aria-live="polite"></p>
+        <p id="emptyState" class="empty-state">No items yet.</p>
+        <ul id="itemList" class="item-list"></ul>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

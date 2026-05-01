@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auth Build"
+  short_description: "Build auth and authorization flows"
+  default_prompt: "Use $auth-build to add or tighten this auth and permission flow."

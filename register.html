@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Civic Intelligence</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./marketing.css" />
+    <script src="./marketing.js" defer></script>
+  </head>
+  <body class="marketing-body auth-body">
+    <div class="screen-noise"></div>
+    <div class="screen-scanlines"></div>
+
+    <header class="marketing-header">
+      <a class="marketing-brand" href="./landing.html">
+        <span class="eyebrow">Civic Intelligence</span>
+        <strong>Investigation Platform</strong>
+      </a>
+      <nav class="marketing-nav">
+        <a class="button ghost" href="./login.html">Log In</a>
+        <a class="button primary auth-nav-current" href="./register.html">Register</a>
+      </nav>
+    </header>
+
+    <main class="auth-main">
+      <section class="auth-shell">
+        <div class="auth-form-column reveal-up">
+          <div class="auth-form-surface">
+            <div class="auth-form-header">
+              <p class="eyebrow">Register</p>
+              <h2>Create Account</h2>
+            </div>
+
+            <form class="auth-form auth-form-register" id="registerForm">
+              <label class="auth-field">
+                <span>Username</span>
+                <input type="text" name="username" placeholder="jordan.mills" required />
+              </label>
+
+              <label class="auth-field">
+                <span>Password</span>
+                <input type="password" name="password" placeholder="Create password" required />
+              </label>
+
+              <div class="auth-captcha-shell">
+                <div class="auth-captcha-widget" data-recaptcha-container></div>
+                <input type="hidden" name="recaptchaToken" />
+                <p class="auth-captcha-meta" data-captcha-mode-text></p>
+              </div>
+
+              <button class="button primary auth-submit" type="submit">Register</button>
+              <p class="auth-feedback hidden" id="registerFeedback"></p>
+              <a class="auth-secondary-link" href="./login.html">Already have an account?</a>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

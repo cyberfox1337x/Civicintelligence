@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Build"
+  short_description: "Build focused tests and smoke checks"
+  default_prompt: "Use $test-build to add the smallest meaningful tests for this feature."
